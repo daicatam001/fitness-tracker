@@ -8,10 +8,14 @@
   <div><a routerLink="/">LOGO</a></div>
   <div fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
     <ul fxLayout fxLayoutGap="10px" class="navigation-items">
-      <li><a routerLink="/signup">Signup</a></li>
-      <li><a routerLink="/login">Login</a></li>
-      <li><a routerLink="/training">Training</a></li>
-      <li><a>Logout</a></li>
+      <ng-container *ngIf="(isAuth$ | async);else loginTemp">
+        <li><a routerLink="/training">Training</a></li>
+        <li><a (click)="onLogout()">Logout</a></li>
+      </ng-container>
+      <ng-template #loginTemp>
+        <li><a routerLink="/signup">Signup</a></li>
+        <li><a routerLink="/login">Login</a></li>
+      </ng-template>
     </ul>
   </div>
 </mat-toolbar>

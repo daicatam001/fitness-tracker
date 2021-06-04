@@ -1,9 +1,12 @@
-<mat-tab-group *ngIf="!ongoingTraining">
-  <mat-tab label="New Exercise">
-    <app-new-training (startTraining)="ongoingTraining=true"></app-new-training>
-  </mat-tab>
-  <mat-tab label="Past Exercise">
-    <app-past-training></app-past-training>
-  </mat-tab>
-</mat-tab-group>
-<app-current-training *ngIf="ongoingTraining" (exitTraining)="ongoingTraining=false"></app-current-training>
+<app-current-training *ngIf="(ongoingTraining$ | async);else selectTrainingTemp"></app-current-training>
+<ng-template #selectTrainingTemp>
+  <mat-tab-group>
+    <mat-tab label="New Exercise">
+      <app-new-training (startTraining)="ongoingTraining=true"></app-new-training>
+    </mat-tab>
+    <mat-tab label="Past Exercise">
+      <app-past-training></app-past-training>
+    </mat-tab>
+  </mat-tab-group>
+
+</ng-template>

@@ -1,28 +1,30 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {AuthService} from '../../auth/auth.service';
-import {Observable} from 'rxjs';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {select, Store} from '@ngrx/store';
+import {logout, selectIsAuthenticated} from '../../auth/store';
+import {openNav} from '../../shared/store';
+import {AppState} from '../../store';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css']
+  styleUrls: ['./header.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeaderComponent implements OnInit {
-  @Output() toggleSidenav = new EventEmitter();
 
-  isAuth$ = this.authService.authChange$;
+  isAuth$ = this.store.pipe(select(selectIsAuthenticated));
 
-  constructor(private authService: AuthService) {
+  constructor(private store: Store<AppState>) {
   }
 
   ngOnInit(): void {
   }
 
   onToggleSidenav(): void {
-    this.toggleSidenav.emit();
+    this.store.dispatch(openNav());
   }
 
   onLogout(): void {
-    this.authService.logout();
+    this.store.dispatch(logout());
   }
 }

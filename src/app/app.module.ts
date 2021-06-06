@@ -4,26 +4,27 @@ import {BrowserModule} from '@angular/platform-browser';
 import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MaterialModule} from './material.module';
-import {SignupComponent} from './auth/signup/signup.component';
-import {LoginComponent} from './auth/login/login.component';
 import {TrainingComponent} from './training/training.component';
 import {NewTrainingComponent} from './training/new-training/new-training.component';
 import {PastTrainingComponent} from './training/past-training/past-training.component';
 import {WelcomeComponent} from './welcome/welcome.component';
 import {AppRoutingModule} from './app-routing-module';
-import {FlexLayoutModule} from '@angular/flex-layout';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {FormsModule} from '@angular/forms';
 import {HeaderComponent} from './naviagtion/header/header.component';
 import {SidenavListComponent} from './naviagtion/sidenav-list/sidenav-list.component';
 import {CurrentTrainingComponent} from './training/current-training/current-training.component';
 import {StopTrainingComponent} from './training/current-training/stop-training.component';
-import {AuthGuard} from './auth/auth.guard';
+import {environment} from '../environments/environment';
+import {AngularFireModule} from '@angular/fire';
+import {SharedModule} from './shared/shared.module';
+import {AngularFireAuthModule} from '@angular/fire/auth';
+import {StoreModule} from '@ngrx/store';
+import {AuthGuard, AuthModule} from './auth';
+import {EffectsModule} from '@ngrx/effects';
 
 @NgModule({
   declarations: [
     AppComponent,
-    SignupComponent,
-    LoginComponent,
     TrainingComponent,
     NewTrainingComponent,
     PastTrainingComponent,
@@ -31,20 +32,24 @@ import {AuthGuard} from './auth/auth.guard';
     HeaderComponent,
     SidenavListComponent,
     CurrentTrainingComponent,
-    StopTrainingComponent
+    StopTrainingComponent,
   ],
   imports: [
     BrowserModule,
     MaterialModule,
+    SharedModule,
+    AuthModule,
     AppRoutingModule,
-    ReactiveFormsModule,
     BrowserAnimationsModule,
-    FlexLayoutModule,
-    FormsModule
+    FormsModule,
+    StoreModule.forRoot({}),
+    EffectsModule.forRoot(),
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireAuthModule,
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent],
-  entryComponents: [StopTrainingComponent]
+  entryComponents: [StopTrainingComponent],
 })
 export class AppModule {
 }

@@ -47,7 +47,7 @@ export class TrainingEffects implements OnInitEffects {
     map(([, currentTraining]) => {
       if (currentTraining.progress >= 100) {
         clearInterval(this.progressTimer);
-        this.store.dispatch(trainingAction.stopTraining());
+        this.store.dispatch(trainingAction.finishTraining());
       }
       return null;
     })

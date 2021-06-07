@@ -14,10 +14,6 @@ import {selectTrainingProgress} from '../../store';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CurrentTrainingComponent implements OnInit {
-  @Output() exitTraining = new EventEmitter<void>();
-  timer;
-  step: number;
-
   progress$ = this.store.select(selectTrainingProgress);
 
   constructor(private dialog: MatDialog,

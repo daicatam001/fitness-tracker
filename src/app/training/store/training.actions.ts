@@ -8,5 +8,7 @@ export const fetchExercisesSuccess = createAction('[Training] Fetch Exercises Su
 export const fetchExercisesFailed = createAction('[Training] Fetch Exercises Failed');
 export const startTraining = createAction('[Training] Start Training',
   props<{ exerciseId: string }>());
-export const incrementProgress = createAction('[Training] Increment Progress');
 export const stopTraining = createAction('[Training] Stop Training');
+export const continueTraining = createAction('[Training] Continue Training');
+export const finishTraining = createAction('[Training] Finish Training');
+export const incrementProgress = createAction('[Training] Increment Progress');

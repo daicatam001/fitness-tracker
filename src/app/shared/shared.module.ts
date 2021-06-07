@@ -3,12 +3,17 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
 import {StoreModule} from '@ngrx/store';
-import {uiReducer} from './store/ui.reducers';
 import {MaterialModule} from '../material.module';
 import {EffectsModule} from '@ngrx/effects';
 import {UiEffects} from './store/ui.effects';
+import {SpinnerComponent} from './components/spinner/spinner.component';
+import {uiReducer} from './store';
+import {OverlayModule} from '@angular/cdk/overlay';
 
 @NgModule({
+  declarations: [
+    SpinnerComponent
+  ],
   imports: [
     MaterialModule,
     StoreModule.forFeature('ui', uiReducer),
@@ -17,8 +22,14 @@ import {UiEffects} from './store/ui.effects';
     CommonModule,
     FlexLayoutModule,
     FormsModule,
+    OverlayModule,
     ReactiveFormsModule,
-    StoreModule
+    StoreModule,
+
+    SpinnerComponent,
+  ],
+  entryComponents: [
+    SpinnerComponent
   ]
 })
 export class SharedModule {

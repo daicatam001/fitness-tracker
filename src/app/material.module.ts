@@ -35,7 +35,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     MatSelectModule,
     MatProgressSpinnerModule,
     MatDialogModule,
-    MatSnackBarModule
+    MatSnackBarModule,
   ],
 })
 export class MaterialModule {

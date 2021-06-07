@@ -8,3 +8,7 @@ export const openNav = createAction('[UI] Open Nav');
 export const showSnackBar = createAction('[UI] Show Snack Bar', props<{ message: string, action: string }>());
 
 export const navigate = createAction('[UI] Navigate', props<{ commands: string[], extras?: NavigationExtras }>());
+
+
+export const showSpinner = createAction('[UI] Show Spinner');
+export const hideSpinner = createAction('[UI] Hide Spinner');

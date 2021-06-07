@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Store} from '@ngrx/store';
 import {AuthService} from '../../auth.service';
-import {login, loginSuccess} from '../../store';
+import {login} from '../../store';
 import {AppState} from '../../../store';
 
 @Component({
@@ -14,7 +14,8 @@ import {AppState} from '../../../store';
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
 
-  constructor(private authService: AuthService, private store: Store<AppState>) {
+  constructor(private authService: AuthService,
+              private store: Store<AppState>) {
   }
 
   ngOnInit(): void {
@@ -22,10 +23,6 @@ export class LoginComponent implements OnInit {
       email: new FormControl('', {validators: [Validators.required, Validators.email]}),
       password: new FormControl('', {validators: [Validators.required]})
     }));
-
-    this.store.subscribe((state) => {
-      console.log(state);
-    });
   }
 
   onSubmit(): void {

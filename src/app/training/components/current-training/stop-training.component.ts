@@ -1,4 +1,4 @@
-import {Component, Inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 
 @Component({
@@ -12,7 +12,8 @@ import {MAT_DIALOG_DATA} from '@angular/material/dialog';
           <button mat-raised-button color="primary" [mat-dialog-close]="true">Yes</button>
           <button mat-raised-button [mat-dialog-close]="false">No</button>
       </mat-dialog-actions>
-  `
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StopTrainingComponent {
 

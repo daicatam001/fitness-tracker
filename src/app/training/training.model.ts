@@ -11,3 +11,8 @@ export interface Exercise {
 export interface ExerciseEntities {
   [key: string]: Exercise;
 }
+
+export interface CurrentTraining {
+  exerciseId: string;
+  progress: number;
+}

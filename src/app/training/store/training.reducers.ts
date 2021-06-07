@@ -1,11 +1,11 @@
-import {Exercise, ExerciseEntities} from '../training.model';
+import {CurrentTraining, Exercise, ExerciseEntities} from '../training.model';
 import {createReducer, on} from '@ngrx/store';
-import {fetchExercisesSuccess} from './training.actions';
+import {fetchExercisesSuccess, incrementProgress, startTraining, stopTraining} from './training.actions';
 
 export interface TrainingState {
   exerciseEntities: ExerciseEntities,
   trainedExercises: string[];
-  currentTraining: string
+  currentTraining: CurrentTraining
 }
 
 
@@ -16,4 +16,8 @@ const initState: TrainingState = {
 };
 
 export const reducers = createReducer(initState,
-  on(fetchExercisesSuccess, (state, {exerciseEntities}) => ({...state, ...exerciseEntities})));
+  on(fetchExercisesSuccess, (state, {exerciseEntities}) => ({...state, exerciseEntities: {...exerciseEntities}})),
+  on(startTraining, (state, {exerciseId}) => ({...state, currentTraining: {exerciseId, progress: 0}})),
+  on(incrementProgress, (state) => ({...state, currentTraining: {...state.currentTraining, progress: state.currentTraining.progress + 5}})),
+  on(stopTraining, (state) => ({...state, currentTraining: null}))
+);

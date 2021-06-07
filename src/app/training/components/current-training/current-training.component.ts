@@ -1,51 +1,45 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {StopTrainingComponent} from './stop-training.component';
 import {take} from 'rxjs/operators';
 import {TrainingService} from '../../training.service';
+import {AppState} from '../../../store';
+import {Store} from '@ngrx/store';
+import {selectTrainingProgress} from '../../store';
 
 @Component({
   selector: 'app-current-training',
   templateUrl: './current-training.component.html',
-  styleUrls: ['./current-training.component.css']
+  styleUrls: ['./current-training.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CurrentTrainingComponent implements OnInit {
   @Output() exitTraining = new EventEmitter<void>();
-  progress = 0;
   timer;
   step: number;
 
+  progress$ = this.store.select(selectTrainingProgress);
+
   constructor(private dialog: MatDialog,
-              private trainingService: TrainingService) {
+              private store: Store<AppState>) {
   }
 
   ngOnInit(): void {
-    this.doTraining();
-  }
-
-  doTraining(): void {
-    this.step = this.trainingService.getRunningExercise().duration / 100 * 1000;
-    this.timer = setInterval(() => {
-      this.progress = this.progress + 5;
-      if (this.progress >= 100) {
-        clearInterval(this.timer);
-      }
-    }, this.step);
   }
 
   onStop(): void {
-    clearInterval(this.timer);
-    const dialogRef = this.dialog.open(StopTrainingComponent, {
-      data: {
-        progress: this.progress
-      }
-    });
-    dialogRef.afterClosed().pipe(take(1)).subscribe(result => {
-      if (result) {
-        this.exitTraining.emit();
-      } else {
-        this.doTraining();
-      }
-    });
+    // clearInterval(this.timer);
+    // const dialogRef = this.dialog.open(StopTrainingComponent, {
+    //   data: {
+    //     progress: this.progress
+    //   }
+    // });
+    // dialogRef.afterClosed().pipe(take(1)).subscribe(result => {
+    //   if (result) {
+    //     this.exitTraining.emit();
+    //   } else {
+    //     this.doTraining();
+    //   }
+    // });
   }
 }

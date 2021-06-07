@@ -15,3 +15,7 @@ export const selectCurrentTraining = createSelector(
   selectTraining,
   state => state.currentTraining
 );
+export const selectTrainingProgress = createSelector(
+  selectCurrentTraining,
+  state => state ? state.progress : 0
+);

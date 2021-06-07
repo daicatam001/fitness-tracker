@@ -4,15 +4,11 @@ import {BrowserModule} from '@angular/platform-browser';
 import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MaterialModule} from './material.module';
-import {TrainingComponent} from './training/training.component';
-import {NewTrainingComponent} from './training/new-training/new-training.component';
-import {PastTrainingComponent} from './training/past-training/past-training.component';
 import {WelcomeComponent} from './welcome/welcome.component';
 import {AppRoutingModule} from './app-routing-module';
 import {FormsModule} from '@angular/forms';
 import {HeaderComponent} from './naviagtion/header/header.component';
 import {SidenavListComponent} from './naviagtion/sidenav-list/sidenav-list.component';
-import {CurrentTrainingComponent} from './training/current-training/current-training.component';
 import {StopTrainingComponent} from './training/current-training/stop-training.component';
 import {environment} from '../environments/environment';
 import {AngularFireModule} from '@angular/fire';
@@ -25,14 +21,9 @@ import {EffectsModule} from '@ngrx/effects';
 @NgModule({
   declarations: [
     AppComponent,
-    TrainingComponent,
-    NewTrainingComponent,
-    PastTrainingComponent,
     WelcomeComponent,
     HeaderComponent,
     SidenavListComponent,
-    CurrentTrainingComponent,
-    StopTrainingComponent,
   ],
   imports: [
     BrowserModule,

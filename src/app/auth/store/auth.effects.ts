@@ -66,6 +66,11 @@ export class AuthEffects {
     ])
   ));
 
+  logout$ = createEffect(() => this.actions$.pipe(
+    ofType(authActions.logout),
+    mergeMap(() => of(uiAction.navigate({commands: ['/login']})))
+  ));
+
   constructor(private actions$: Actions,
               private store: Store<AppState>,
               private apiService: ApiService) {

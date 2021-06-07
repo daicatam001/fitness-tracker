@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {TrainingService} from '../training.service';
 import {NgForm} from '@angular/forms';
-import {Exercise} from '../exercise.model';
+import {AppState} from '../../../store';
+import {select, Store} from '@ngrx/store';
+import {fetchExercises, selectExercises} from '../../store';
 
 @Component({
   selector: 'app-new-training',
@@ -9,17 +10,15 @@ import {Exercise} from '../exercise.model';
   styleUrls: ['./new-training.component.css']
 })
 export class NewTrainingComponent implements OnInit {
-  exercises: Exercise[];
+  exercises$ = this.store.pipe(select(selectExercises));
 
-  constructor(private trainingService: TrainingService) {
+  constructor(private store: Store<AppState>) {
   }
 
   ngOnInit(): void {
-    this.exercises = this.trainingService.getAvailableExercises();
+    this.store.dispatch(fetchExercises());
   }
 
   onStartTraining(form: NgForm): void {
-    console.log(form);
-    this.trainingService.startExercise(form.value.exercise);
   }
 }

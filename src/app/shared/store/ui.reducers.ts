@@ -13,7 +13,6 @@ export const uiReducer = createReducer(initState,
   on(closeNav, state => ({...state, isOpenNav: false})),
   on(openNav, state => ({...state, isOpenNav: true})),
   on(toggleNav, state => {
-    console.log(state);
     return {
       ...state,
       isOpenNav: !state.isOpenNav

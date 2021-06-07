@@ -1,4 +1,4 @@
-import {Exercise} from './exercise.model';
+import {Exercise} from './training.model';
 import {Injectable} from '@angular/core';
 import {Subject} from 'rxjs';
 
@@ -27,7 +27,7 @@ export class TrainingService {
     this.exerciseChanged.next({...this.runningExercise});
   }
 
-  getRunningExercise(): Exercise { 
+  getRunningExercise(): Exercise {
     return {...this.runningExercise};
   }
 }

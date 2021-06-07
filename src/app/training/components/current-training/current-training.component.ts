@@ -2,8 +2,7 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {StopTrainingComponent} from './stop-training.component';
 import {take} from 'rxjs/operators';
-import {AuthService} from '../../auth/auth.service';
-import {TrainingService} from '../training.service';
+import {TrainingService} from '../../training.service';
 
 @Component({
   selector: 'app-current-training',
@@ -13,7 +12,7 @@ import {TrainingService} from '../training.service';
 export class CurrentTrainingComponent implements OnInit {
   @Output() exitTraining = new EventEmitter<void>();
   progress = 0;
-  timer: number;
+  timer;
   step: number;
 
   constructor(private dialog: MatDialog,

@@ -9,7 +9,7 @@ import {AppRoutingModule} from './app-routing-module';
 import {FormsModule} from '@angular/forms';
 import {HeaderComponent} from './naviagtion/header/header.component';
 import {SidenavListComponent} from './naviagtion/sidenav-list/sidenav-list.component';
-import {StopTrainingComponent} from './training/current-training/stop-training.component';
+import {StopTrainingComponent} from './training/components/current-training/stop-training.component';
 import {environment} from '../environments/environment';
 import {AngularFireModule} from '@angular/fire';
 import {SharedModule} from './shared/shared.module';

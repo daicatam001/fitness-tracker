@@ -6,3 +6,8 @@ export interface Exercise {
   date?: Date;
   state?: 'completed' | 'cancelled' | null;
 }
+
+
+export interface ExerciseEntities {
+  [key: string]: Exercise;
+}

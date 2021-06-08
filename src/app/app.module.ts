@@ -17,6 +17,7 @@ import {AngularFireAuthModule} from '@angular/fire/auth';
 import {StoreModule} from '@ngrx/store';
 import {AuthGuard, AuthModule} from './auth';
 import {EffectsModule} from '@ngrx/effects';
+import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,10 @@ import {EffectsModule} from '@ngrx/effects';
     FormsModule,
     StoreModule.forRoot({}),
     EffectsModule.forRoot(),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25, // Retains last 25 states
+      logOnly: environment.production, // Restrict extension to log-only mode
+    }),
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
   ],

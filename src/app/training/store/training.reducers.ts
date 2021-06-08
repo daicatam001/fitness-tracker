@@ -1,11 +1,11 @@
-import {CurrentTraining, Exercise, ExerciseEntities} from '../training.model';
+import {CurrentTraining, ExerciseEntities} from '../training.model';
 import {createReducer, on} from '@ngrx/store';
-import {fetchExercisesSuccess, incrementProgress, startTraining, finishTraining} from './training.actions';
+import {fetchExercisesSuccess, finishTraining, incrementProgress, startTraining} from './training.actions';
 
 export interface TrainingState {
-  exerciseEntities: ExerciseEntities,
+  exerciseEntities: ExerciseEntities;
   trainedExercises: string[];
-  currentTraining: CurrentTraining
+  currentTraining: CurrentTraining;
 }
 
 

@@ -25,6 +25,7 @@
     "@angular/router": "~11.2.4",
     "@ngrx/effects": "^12.0.0",
     "@ngrx/store": "^12.0.0",
+    "@ngrx/store-devtools": "^12.0.0",
     "firebase": "^8.6.5",
     "hammerjs": "^2.0.8",
     "rxjs": "~6.6.0",

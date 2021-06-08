@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {from, Observable} from 'rxjs';
-import {Exercise} from '../../training/training.model';
+import {Exercise, FinishedExercise} from '../../training/training.model';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {map} from 'rxjs/operators';
 
@@ -31,5 +31,9 @@ export class ApiService {
             return {id: doc.payload.doc.id, name, duration, calories};
           });
         }));
+  }
+
+  saveFinishedExercise(exercise: FinishedExercise): void {
+    this.afs.collection('finishedExercises').add(exercise);
   }
 }

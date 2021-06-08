@@ -1,13 +1,13 @@
 import {Injectable} from '@angular/core';
 import {Actions, concatLatestFrom, createEffect, ofType, OnInitEffects} from '@ngrx/effects';
 import * as trainingAction from './training.actions';
-import {catchError, map, mergeMap, take} from 'rxjs/operators';
+import {catchError, map, mergeMap, take, tap} from 'rxjs/operators';
 import {AppState} from '../../store';
 import {Action, Store} from '@ngrx/store';
 import {ApiService} from '../../shared/services/api.service';
 import {of} from 'rxjs';
-import {Exercise, ExerciseEntities} from '../training.model';
-import {selectCurrentTraining, selectExerciseEntities, selectTraining} from './training.selectors';
+import {CurrentTraining, Exercise} from '../training.model';
+import {selectCurrentTraining} from './training.selectors';
 import {StopTrainingComponent} from '../components/current-training/stop-training.component';
 import {MatDialog} from '@angular/material/dialog';
 
@@ -34,9 +34,10 @@ export class TrainingEffects implements OnInitEffects {
 
   startTraining$ = createEffect(() => this.actions$.pipe(
     ofType(trainingAction.startTraining),
-    concatLatestFrom(() => this.store.select(selectExerciseEntities)),
-    map(([action, exeEntites]) => {
-      this.runProcess(exeEntites, action.exerciseId);
+    concatLatestFrom(() => this.store.select(selectCurrentTraining)),
+    map(([, currentTraining]) => {
+      console.log(currentTraining);
+      this.runProcess(currentTraining);
     })
   ), {dispatch: false});
 
@@ -46,7 +47,13 @@ export class TrainingEffects implements OnInitEffects {
     map(([, currentTraining]) => {
       if (currentTraining.progress >= 100) {
         clearInterval(this.progressTimer);
-        this.store.dispatch(trainingAction.finishTraining());
+        this.store.dispatch(trainingAction.finishTraining({
+          exercise: {
+            ...currentTraining,
+            date: new Date(),
+            state: 'completed'
+          }
+        }));
       }
       return null;
     })
@@ -63,18 +70,27 @@ export class TrainingEffects implements OnInitEffects {
         }
       });
       dialogRef.afterClosed().pipe(take(1)).subscribe(result => {
-        this.store.dispatch(result ? trainingAction.finishTraining() : trainingAction.continueTraining());
+        this.store.dispatch(result ?
+          trainingAction.finishTraining(
+            {exercise: {...currentTraining, date: new Date(), state: 'cancelled'}})
+          : trainingAction.continueTraining());
       });
     })
   ), {dispatch: false});
 
   continueTraining$ = createEffect(() => this.actions$.pipe(
     ofType(trainingAction.continueTraining),
-    concatLatestFrom(() => this.store.select(selectTraining)),
-    map(([, training]) => {
-      this.runProcess(training.exerciseEntities, training.currentTraining.exerciseId);
+    concatLatestFrom(() => this.store.select(selectCurrentTraining)),
+    map(([, currentTraining]) => {
+      this.runProcess(currentTraining);
     })
   ), {dispatch: false});
+
+  finishedTraining$ = createEffect(() => this.actions$.pipe(
+    ofType(trainingAction.finishTraining),
+    tap(action => this.apiService.saveFinishedExercise(action.exercise))
+  ), {dispatch: false});
+
 
   constructor(private actions$: Actions,
               private dialog: MatDialog,
@@ -87,8 +103,8 @@ export class TrainingEffects implements OnInitEffects {
     return trainingAction.initData();
   }
 
-  private runProcess(exeEntites: ExerciseEntities, exerciseId): void {
-    const step = exeEntites[exerciseId].duration / 100 * 1000;
+  private runProcess(exercise: CurrentTraining): void {
+    const step = exercise.duration / 100 * 1000;
     this.progressTimer = setInterval(() => {
       this.store.dispatch(trainingAction.incrementProgress());
     }, step);

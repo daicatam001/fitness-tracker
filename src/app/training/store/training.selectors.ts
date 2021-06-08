@@ -13,7 +13,10 @@ export const selectExercises = createSelector(
 
 export const selectCurrentTraining = createSelector(
   selectTraining,
-  state => state.currentTraining
+  state => {
+    return state.currentTraining ?
+      {...state.exerciseEntities[state.currentTraining.exerciseId], ...state.currentTraining} : null;
+  }
 );
 export const selectTrainingProgress = createSelector(
   selectCurrentTraining,

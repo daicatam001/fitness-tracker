@@ -3,8 +3,7 @@ export interface Exercise {
   name: string;
   duration: number;
   calories: number;
-  date?: Date;
-  state?: 'completed' | 'cancelled' | null;
+
 }
 
 
@@ -12,7 +11,12 @@ export interface ExerciseEntities {
   [key: string]: Exercise;
 }
 
-export interface CurrentTraining {
+export interface CurrentTraining extends Partial<Exercise> {
   exerciseId: string;
   progress: number;
+}
+
+export interface FinishedExercise extends Exercise {
+  date: Date;
+  state: 'completed' | 'cancelled' | null;
 }

@@ -1,5 +1,5 @@
 import {createFeatureSelector, createSelector} from '@ngrx/store';
-import {TrainingState} from './training.reducers';
+import {TrainingState} from '@training/store/training.reducers';
 
 export const selectTraining = createFeatureSelector<TrainingState>('training');
 export const selectExerciseEntities = createSelector(

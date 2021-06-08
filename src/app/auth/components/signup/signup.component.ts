@@ -1,8 +1,8 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {NgForm} from '@angular/forms';
-import {AppState} from '../../../store';
 import {Store} from '@ngrx/store';
-import {signup} from '../../store';
+import {AppState} from '@store';
+import {signup} from '@auth/store';
 
 @Component({
   selector: 'app-signup',

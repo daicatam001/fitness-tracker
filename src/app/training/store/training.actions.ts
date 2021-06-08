@@ -1,5 +1,5 @@
 import {createAction, props} from '@ngrx/store';
-import {FinishedExercise, ExerciseEntities} from '../training.model';
+import {ExerciseEntities, FinishedExercise} from '@training/training.model';
 
 export const initData = createAction('[Training] InitData');
 export const fetchExercises = createAction('[Training] Fetch Exercises');

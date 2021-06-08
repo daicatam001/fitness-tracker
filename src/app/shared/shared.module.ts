@@ -3,12 +3,12 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
 import {StoreModule} from '@ngrx/store';
-import {MaterialModule} from '../material.module';
 import {EffectsModule} from '@ngrx/effects';
-import {UiEffects} from './store/ui.effects';
-import {SpinnerComponent} from './components/spinner/spinner.component';
-import {uiReducer} from './store';
 import {OverlayModule} from '@angular/cdk/overlay';
+import {MaterialModule} from '../material.module';
+import {SpinnerComponent} from '@shared/components/spinner/spinner.component';
+import {UiEffects} from '@shared/store/ui.effects';
+import {uiReducer} from '@shared/store';
 
 @NgModule({
   declarations: [

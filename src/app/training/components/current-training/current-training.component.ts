@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {AppState} from '../../../store';
 import {Store} from '@ngrx/store';
-import {selectTrainingProgress, stopTraining} from '../../store';
+import {selectTrainingProgress, stopTraining} from '@training/store';
+import {AppState} from '@store';
 
 @Component({
   selector: 'app-current-training',

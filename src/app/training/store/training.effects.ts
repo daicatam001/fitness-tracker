@@ -2,14 +2,14 @@ import {Injectable} from '@angular/core';
 import {Actions, concatLatestFrom, createEffect, ofType, OnInitEffects} from '@ngrx/effects';
 import * as trainingAction from './training.actions';
 import {catchError, map, mergeMap, take, tap} from 'rxjs/operators';
-import {AppState} from '../../store';
 import {Action, Store} from '@ngrx/store';
-import {ApiService} from '../../shared/services/api.service';
 import {of} from 'rxjs';
-import {CurrentTraining, Exercise} from '../training.model';
-import {selectCurrentTraining} from './training.selectors';
-import {StopTrainingComponent} from '../components/current-training/stop-training.component';
 import {MatDialog} from '@angular/material/dialog';
+import {ApiService} from '@shared/services/api.service';
+import {CurrentTraining, Exercise} from '@training/training.model';
+import {selectCurrentTraining} from '@training/store/training.selectors';
+import {StopTrainingComponent} from '@training/components/current-training/stop-training.component';
+import {AppState} from '@store';
 
 @Injectable()
 export class TrainingEffects implements OnInitEffects {

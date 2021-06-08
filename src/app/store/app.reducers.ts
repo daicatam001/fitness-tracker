@@ -3,5 +3,5 @@ import {UiState} from '../shared/store';
 
 export interface AppState {
   auth: AuthState;
-  ui: UiState
+  ui: UiState;
 }

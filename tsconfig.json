@@ -18,7 +18,21 @@
     ],
     "types": [
       "node"
-    ]
+    ],
+    "paths": {
+      "@auth/*": [
+        "src/app/auth/*"
+      ],
+      "@shared/*": [
+        "src/app/shared/*"
+      ],
+      "@store": [
+        "src/app/store"
+      ],
+      "@training/*": [
+        "src/app/training/*"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false

@@ -2,9 +2,9 @@ import {ActivatedRouteSnapshot, CanActivate, CanLoad, Route, Router, RouterState
 import {Observable} from 'rxjs';
 import {take, tap} from 'rxjs/operators';
 import {Injectable} from '@angular/core';
-import {AppState} from '../store';
 import {select, Store} from '@ngrx/store';
-import {selectIsAuthenticated} from './store';
+import {AppState} from '@store';
+import {selectIsAuthenticated} from '@auth/store';
 
 @Injectable()
 export class AuthGuard implements CanActivate, CanLoad {

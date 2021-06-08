@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {from, Observable} from 'rxjs';
-import {Exercise, FinishedExercise} from '../../training/training.model';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {map} from 'rxjs/operators';
+import {Exercise, FinishedExercise} from '@training/training.model';
 
 @Injectable({
   providedIn: 'root'

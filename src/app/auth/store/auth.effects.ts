@@ -2,18 +2,18 @@ import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import * as authActions from './auth.actions';
 import {catchError, map, mergeMap, tap} from 'rxjs/operators';
-import {ApiService} from '../../shared/services/api.service';
-import {EMPTY, of, throwError} from 'rxjs';
-import * as uiAction from '../../shared/store';
-import {AppState} from '../../store';
+import {of} from 'rxjs';
 import {Store} from '@ngrx/store';
+import {hideSpinner, navigate, showSnackBar, showSpinner} from '@shared/store';
+import {AppState} from '@store';
+import {ApiService} from '@shared/services/api.service';
 
 @Injectable()
 export class AuthEffects {
 
   signup$ = createEffect(() => this.actions$.pipe(
     ofType(authActions.signup),
-    tap(() => this.store.dispatch(uiAction.showSpinner())),
+    tap(() => this.store.dispatch(showSpinner())),
     mergeMap(action => {
       return this.apiService.signup(action.email, action.password).pipe(
         map(res => authActions.signupSuccess()),
@@ -26,23 +26,23 @@ export class AuthEffects {
   signupSuccess$ = createEffect(() => this.actions$.pipe(
     ofType(authActions.signupSuccess),
     mergeMap(() => [
-      uiAction.hideSpinner(),
-      uiAction.showSnackBar({message: 'Signup Success', action: 'Success'}),
-      uiAction.navigate({commands: ['/training']})
+      hideSpinner(),
+      showSnackBar({message: 'Signup Success', action: 'Success'}),
+      navigate({commands: ['/training']})
     ])
   ));
 
   signupFailed$ = createEffect(() => this.actions$.pipe(
     ofType(authActions.signupFailed),
     mergeMap(() => [
-      uiAction.hideSpinner(),
-      uiAction.showSnackBar({message: 'Signup Failed', action: 'Error'})
+      hideSpinner(),
+      showSnackBar({message: 'Signup Failed', action: 'Error'})
     ])
   ));
 
   login$ = createEffect(() => this.actions$.pipe(
     ofType(authActions.login),
-    tap(() => this.store.dispatch(uiAction.showSpinner())),
+    tap(() => this.store.dispatch(showSpinner())),
     mergeMap(action => {
       return this.apiService.login(action.email, action.password).pipe(
         map(res => authActions.loginSuccess()),
@@ -53,23 +53,23 @@ export class AuthEffects {
   loginSuccess$ = createEffect(() => this.actions$.pipe(
     ofType(authActions.loginSuccess),
     mergeMap(() => [
-      uiAction.hideSpinner(),
-      uiAction.showSnackBar({message: 'Login Success', action: 'Success'}),
-      uiAction.navigate({commands: ['/training']})
+      hideSpinner(),
+      showSnackBar({message: 'Login Success', action: 'Success'}),
+      navigate({commands: ['/training']})
     ])
   ));
 
   loginFailed$ = createEffect(() => this.actions$.pipe(
     ofType(authActions.loginFailed),
     mergeMap(() => [
-      uiAction.hideSpinner(),
-      uiAction.showSnackBar({message: 'Login Failed', action: 'Error'})
+      hideSpinner(),
+      showSnackBar({message: 'Login Failed', action: 'Error'})
     ])
   ));
 
   logout$ = createEffect(() => this.actions$.pipe(
     ofType(authActions.logout),
-    mergeMap(() => of(uiAction.navigate({commands: ['/login']})))
+    mergeMap(() => of(navigate({commands: ['/login']})))
   ));
 
   constructor(private actions$: Actions,

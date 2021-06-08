@@ -1,4 +1,4 @@
-<app-current-training *ngIf="!!(currentTraining$ | async);else selectTrainingTemp"></app-current-training>
+<app-current-training *ngIf="(currentTraining$ | async);else selectTrainingTemp"></app-current-training>
 <ng-template #selectTrainingTemp>
   <mat-tab-group>
     <mat-tab label="New Exercise">

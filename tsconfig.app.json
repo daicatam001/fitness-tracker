@@ -3,7 +3,21 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./out-tsc/app",
-    "types": []
+    "types": [],
+    "paths": {
+      "@auth/*": [
+        "src/app/auth/*"
+      ],
+      "@shared/*": [
+        "src/app/shared/*"
+      ],
+      "@store": [
+        "src/app/store"
+      ],
+      "@training/*": [
+        "src/app/training/*"
+      ]
+    }
   },
   "files": [
     "src/main.ts",

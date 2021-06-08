@@ -1,5 +1,5 @@
 import {createAction, props} from '@ngrx/store';
-import {AuthData} from '@auth/models';
+import {AuthData} from '@auth/auth.model';
 
 export const signup = createAction('[Auth] Signup', props<AuthData>());
 export const signupSuccess = createAction('[Auth] Signup Success');

@@ -33,10 +33,8 @@ export class ApiService {
         }));
   }
 
-  getFinishedExercise(): Observable<any[]> {
-    return this.afs.collection<FinishedExercise[]>('finishedExercises').valueChanges().pipe(
-      tap(res => console.log(res))
-    );
+  getFinishedExercise(): Observable<FinishedExercise[]> {
+    return this.afs.collection<FinishedExercise>('finishedExercises').valueChanges();
   }
 
   saveFinishedExercise(exercise: FinishedExercise): void {

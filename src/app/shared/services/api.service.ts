@@ -13,13 +13,20 @@ export class ApiService {
 
   }
 
+  checkAuth(): Observable<any> {
+    return this.afAuth.authState;
+  }
 
   signup(email: string, password: string): Observable<any> {
-    return from(this.afAuth.createUserWithEmailAndPassword(email, password));
+    return from(this.afAuth.createUserWithEmailAndPassword(email, password)).pipe(tap(res => console.log(res)));
   }
 
   login(email: string, password: string): Observable<any> {
-    return from(this.afAuth.signInWithEmailAndPassword(email, password));
+    return from(this.afAuth.signInWithEmailAndPassword(email, password)).pipe(tap(res => console.log(res)));
+  }
+
+  logout(): Observable<any> {
+    return from(this.afAuth.signOut());
   }
 
   getExercises(): Observable<Exercise[]> {

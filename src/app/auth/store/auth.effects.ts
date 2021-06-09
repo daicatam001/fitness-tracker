@@ -1,15 +1,21 @@
 import {Injectable} from '@angular/core';
-import {Actions, createEffect, ofType} from '@ngrx/effects';
+import {Actions, createEffect, ofType, OnInitEffects} from '@ngrx/effects';
 import * as authActions from './auth.actions';
-import {catchError, map, mergeMap, tap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, take, tap} from 'rxjs/operators';
 import {of} from 'rxjs';
-import {Store} from '@ngrx/store';
+import {Action, Store} from '@ngrx/store';
 import {hideSpinner, navigate, showSnackBar, showSpinner} from '@shared/store';
 import {AppState} from '@store';
 import {ApiService} from '@shared/services/api.service';
+import {AngularFireAuth} from '@angular/fire/auth';
 
 @Injectable()
-export class AuthEffects {
+export class AuthEffects implements OnInitEffects {
+
+  initAuth$ = createEffect(() => this.actions$.pipe(
+    ofType(authActions.initAuth),
+    mergeMap(() => of(authActions.setAuth({isAuthenticated: false})))
+  ));
 
   signup$ = createEffect(() => this.actions$.pipe(
     ofType(authActions.signup),
@@ -69,12 +75,18 @@ export class AuthEffects {
 
   logout$ = createEffect(() => this.actions$.pipe(
     ofType(authActions.logout),
-    mergeMap(() => of(navigate({commands: ['/login']})))
-  ));
+    mergeMap(() => this.apiService.logout().pipe(
+      map(() => navigate({commands: ['/login']})))
+    )));
 
   constructor(private actions$: Actions,
+              private afAuth: AngularFireAuth,
               private store: Store<AppState>,
               private apiService: ApiService) {
 
+  }
+
+  ngrxOnInitEffects(): Action {
+    return authActions.initAuth();
   }
 }

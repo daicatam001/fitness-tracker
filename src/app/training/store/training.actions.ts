@@ -13,3 +13,7 @@ export const continueTraining = createAction('[Training] Continue Training');
 export const finishTraining = createAction('[Training] Finish Training',
   props<{ exercise: FinishedExercise }>());
 export const incrementProgress = createAction('[Training] Increment Progress');
+
+export const fetchFinishedExercises = createAction('[Training] Fetch Finished Exercise');
+export const fetchFinishedExercisesSuccess = createAction('[Training] Fetch Finished Exercise Success',
+  props<{ finishedExercises: FinishedExercise[] }>());

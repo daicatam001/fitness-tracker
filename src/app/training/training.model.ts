@@ -17,6 +17,6 @@ export interface CurrentTraining extends Partial<Exercise> {
 }
 
 export interface FinishedExercise extends Exercise {
-  date: Date;
+  date: string;
   state: 'completed' | 'cancelled' | null;
 }

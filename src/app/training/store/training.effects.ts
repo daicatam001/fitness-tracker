@@ -1,12 +1,12 @@
 import {Injectable} from '@angular/core';
 import {Actions, concatLatestFrom, createEffect, ofType, OnInitEffects} from '@ngrx/effects';
-import * as trainingAction from './training.actions';
+import * as trainingAction from '@training/store/training.actions';
 import {catchError, map, mergeMap, take, tap} from 'rxjs/operators';
 import {Action, Store} from '@ngrx/store';
 import {of} from 'rxjs';
 import {MatDialog} from '@angular/material/dialog';
 import {ApiService} from '@shared/services/api.service';
-import {CurrentTraining, Exercise} from '@training/training.model';
+import {CurrentTraining, Exercise, FinishedExercise} from '@training/training.model';
 import {selectCurrentTraining} from '@training/store/training.selectors';
 import {StopTrainingComponent} from '@training/components/current-training/stop-training.component';
 import {AppState} from '@store';
@@ -36,7 +36,6 @@ export class TrainingEffects implements OnInitEffects {
     ofType(trainingAction.startTraining),
     concatLatestFrom(() => this.store.select(selectCurrentTraining)),
     map(([, currentTraining]) => {
-      console.log(currentTraining);
       this.runProcess(currentTraining);
     })
   ), {dispatch: false});
@@ -50,7 +49,7 @@ export class TrainingEffects implements OnInitEffects {
         this.store.dispatch(trainingAction.finishTraining({
           exercise: {
             ...currentTraining,
-            date: new Date(),
+            date: new Date().toDateString(),
             state: 'completed'
           }
         }));
@@ -72,7 +71,14 @@ export class TrainingEffects implements OnInitEffects {
       dialogRef.afterClosed().pipe(take(1)).subscribe(result => {
         this.store.dispatch(result ?
           trainingAction.finishTraining(
-            {exercise: {...currentTraining, date: new Date(), state: 'cancelled'}})
+            {
+              exercise: {
+                ...currentTraining,
+                date: new Date().toDateString(),
+                calories: currentTraining.calories * currentTraining.progress / 100,
+                state: 'cancelled'
+              }
+            })
           : trainingAction.continueTraining());
       });
     })
@@ -85,6 +91,13 @@ export class TrainingEffects implements OnInitEffects {
       this.runProcess(currentTraining);
     })
   ), {dispatch: false});
+
+  fetchFinishedExercise$ = createEffect(() => this.actions$.pipe(
+    ofType(trainingAction.fetchFinishedExercises),
+    mergeMap(() => this.apiService.getFinishedExercise().pipe(
+      map((data: FinishedExercise[]) => trainingAction.fetchFinishedExercisesSuccess({finishedExercises: data}))
+    ))
+  ));
 
   finishedTraining$ = createEffect(() => this.actions$.pipe(
     ofType(trainingAction.finishTraining),

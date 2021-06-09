@@ -1,1 +1,39 @@
-<p>past-training works!</p>
+<section class="past-training">
+  <table mat-table [dataSource]="finishedTraining$ | async" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="index">
+      <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
+      <mat-cell *matCellDef="let element; let i = index;">{{i}}</mat-cell>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Name</th>
+      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="progress">
+      <th mat-header-cell *matHeaderCellDef> Progress</th>
+      <td mat-cell *matCellDef="let element"> {{element.progress}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="calories">
+      <th mat-header-cell *matHeaderCellDef> Calories</th>
+      <td mat-cell *matCellDef="let element"> {{element.calories}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="state">
+      <th mat-header-cell *matHeaderCellDef> Calories</th>
+      <td mat-cell *matCellDef="let element"> {{element.state}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef> Date</th>
+      <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = index"></tr>
+  </table>
+
+</section>

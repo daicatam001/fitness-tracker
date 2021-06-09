@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {from, Observable} from 'rxjs';
 import {AngularFirestore} from '@angular/fire/firestore';
-import {map} from 'rxjs/operators';
+import {map, tap} from 'rxjs/operators';
 import {Exercise, FinishedExercise} from '@training/training.model';
 
 @Injectable({
@@ -31,6 +31,12 @@ export class ApiService {
             return {id: doc.payload.doc.id, name, duration, calories};
           });
         }));
+  }
+
+  getFinishedExercise(): Observable<any[]> {
+    return this.afs.collection<FinishedExercise[]>('finishedExercises').valueChanges().pipe(
+      tap(res => console.log(res))
+    );
   }
 
   saveFinishedExercise(exercise: FinishedExercise): void {

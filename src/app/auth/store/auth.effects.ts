@@ -20,6 +20,15 @@ export class AuthEffects implements OnInitEffects {
     map(auth => auth ? authActions.isAuthenticated() : authActions.isNotAuthenticated())
   ));
 
+  isAuthenticated$ = createEffect(() => this.actions$.pipe(
+    ofType(authActions.isAuthenticated),
+    map(() => navigate({commands: ['/training']}))
+  ));
+
+  isNotAuthenticated$ = createEffect(() => this.actions$.pipe(
+    ofType(authActions.isNotAuthenticated),
+    map(() => navigate({commands: ['/login']}))
+  ));
   signup$ = createEffect(() => this.actions$.pipe(
     ofType(authActions.signup),
     tap(() => this.store.dispatch(showSpinner())),
@@ -37,7 +46,6 @@ export class AuthEffects implements OnInitEffects {
     mergeMap(() => [
       hideSpinner(),
       showSnackBar({message: 'Signup Success', action: 'Success'}),
-      navigate({commands: ['/training']})
     ])
   ));
 
@@ -65,7 +73,6 @@ export class AuthEffects implements OnInitEffects {
       isAuthenticated(),
       hideSpinner(),
       showSnackBar({message: 'Login Success', action: 'Success'}),
-      navigate({commands: ['/training']})
     ])
   ));
 
@@ -79,13 +86,9 @@ export class AuthEffects implements OnInitEffects {
 
   logout$ = createEffect(() => this.actions$.pipe(
     ofType(authActions.logout),
-    mergeMap(() => this.apiService.logout()),
-    switchMap(() => {
-      return [
-        isNotAuthenticated(),
-        navigate({commands: ['/login']})
-      ];
-    })));
+    mergeMap(() => this.apiService.logout().pipe(
+      map(() => isNotAuthenticated()))
+    )));
 
   constructor(private actions$: Actions,
               private afAuth: AngularFireAuth,

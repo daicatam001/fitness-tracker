@@ -9,12 +9,11 @@ import {Exercise, FinishedExercise} from '@training/training.model';
   providedIn: 'root'
 })
 export class ApiService {
+
+  authState$ = this.afAuth.authState;
+
   constructor(private afs: AngularFirestore, private afAuth: AngularFireAuth) {
 
-  }
-
-  checkAuth(): Observable<any> {
-    return this.afAuth.authState;
   }
 
   signup(email: string, password: string): Observable<any> {

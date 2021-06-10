@@ -2,6 +2,8 @@ import {createAction, props} from '@ngrx/store';
 import {AuthData} from '@auth/auth.model';
 
 export const initAuth = createAction('[Auth] Init Auth');
+export const isAuthenticated = createAction('[Auth] Is Authenticated');
+export const isNotAuthenticated = createAction('[Auth] Is Not Authenticated');
 export const setAuth = createAction('[Auth] Init Auth', props<{ isAuthenticated: boolean }>());
 export const signup = createAction('[Auth] Signup', props<AuthData>());
 export const signupSuccess = createAction('[Auth] Signup Success');

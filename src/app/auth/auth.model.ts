@@ -1,6 +1,6 @@
 export interface User {
   email: string;
-  id: string;
+  uid: string;
 }
 
 export interface AuthData {

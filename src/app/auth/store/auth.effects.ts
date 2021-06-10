@@ -1,14 +1,13 @@
 import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType, OnInitEffects} from '@ngrx/effects';
 import * as authActions from './auth.actions';
-import {catchError, delay, map, mergeMap, switchMap, take, tap} from 'rxjs/operators';
+import {catchError, delay, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {Action, Store} from '@ngrx/store';
 import {hideSpinner, navigate, showSnackBar, showSpinner} from '@shared/store';
 import {AppState} from '@store';
 import {ApiService} from '@shared/services/api.service';
 import {AngularFireAuth} from '@angular/fire/auth';
-import {isAuthenticated, isNotAuthenticated} from './auth.actions';
 
 @Injectable()
 export class AuthEffects implements OnInitEffects {
@@ -17,7 +16,9 @@ export class AuthEffects implements OnInitEffects {
     ofType(authActions.initAuth),
     switchMap(() => this.apiService.authState$),
     delay(200),
-    map(auth => auth ? authActions.isAuthenticated() : authActions.isNotAuthenticated())
+    map(auth =>
+      auth ? authActions.isAuthenticated({user: {email: auth.email, uid: auth.uid}})
+        : authActions.isNotAuthenticated())
   ));
 
   isAuthenticated$ = createEffect(() => this.actions$.pipe(
@@ -70,7 +71,6 @@ export class AuthEffects implements OnInitEffects {
   loginSuccess$ = createEffect(() => this.actions$.pipe(
     ofType(authActions.loginSuccess),
     mergeMap(() => [
-      isAuthenticated(),
       hideSpinner(),
       showSnackBar({message: 'Login Success', action: 'Success'}),
     ])
@@ -86,9 +86,7 @@ export class AuthEffects implements OnInitEffects {
 
   logout$ = createEffect(() => this.actions$.pipe(
     ofType(authActions.logout),
-    mergeMap(() => this.apiService.logout().pipe(
-      map(() => isNotAuthenticated()))
-    )));
+    mergeMap(() => this.apiService.logout())), {dispatch: false});
 
   constructor(private actions$: Actions,
               private afAuth: AngularFireAuth,

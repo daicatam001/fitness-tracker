@@ -8,10 +8,11 @@ import {EffectsModule} from '@ngrx/effects';
 import {SharedModule} from '@shared/shared.module';
 import {SignupComponent} from '@auth/components/signup/signup.component';
 import {LoginComponent} from '@auth/components/login/login.component';
+import {NotAuthGuard} from '@auth/guards/not-auth.guard';
 
 const routes: Routes = [
-  {path: 'signup', component: SignupComponent},
-  {path: 'login', component: LoginComponent},
+  {path: 'signup', component: SignupComponent, canLoad: [NotAuthGuard], canActivate: [NotAuthGuard]},
+  {path: 'login', component: LoginComponent, canLoad: [NotAuthGuard], canActivate: [NotAuthGuard]},
 ];
 
 @NgModule({
@@ -26,7 +27,8 @@ const routes: Routes = [
     EffectsModule.forFeature([AuthEffects]),
     AngularFireStorageModule,
     MaterialModule
-  ]
+  ],
+  providers: [NotAuthGuard]
 })
 export class AuthModule {
 

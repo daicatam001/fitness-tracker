@@ -16,3 +16,6 @@ a:hover, a:active {
   font-weight: normal;
 }
 
+.logout{
+  cursor: pointer;
+}
